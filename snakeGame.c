@@ -56,8 +56,8 @@ int main(){
 
 /**
 Function: setupGame()
-Purpose:
-Author:
+Purpose:Places the snake head in the top left corner so when it automatically goes right from the start, it has space to move. Also get dimensions of terminal to draw the border.
+Author: Tom & 
 **/
 void setupGame() {
     headX=5;
@@ -70,7 +70,7 @@ void setupGame() {
 /**
 Function: inputCheck()
 Purpose: checks if a key is being held and parses that into a variable
-Author:
+Author: Corwin & Tom
 **/
 void inputCheck(){
   switch (getch()){
@@ -105,8 +105,8 @@ void inputCheck(){
 
 /**
 Function: moveSnake()
-Purpose:
-Author:
+Purpose: moves the snake by replacing body with the head, giving the visual of every circle behind the head following the head
+Author: Tom
 **/
 void moveSnake()
 {
