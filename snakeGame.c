@@ -25,7 +25,7 @@ Function: main()
 Purpose: initialize the game, do the gameloop, and close the game neatly
 Author: Corwin Van Deusen
 **/
-int main(){
+int main() {
   //boilerplate prep code
   initscr();
   clear();
@@ -73,8 +73,8 @@ Function: inputCheck()
 Purpose: checks if a key is being held and parses that into a variable
 Author: Corwin & Tom
 **/
-void inputCheck(){
-  switch (getch()){
+void inputCheck() {
+  switch (getch()) {
     case 'w':
     case KEY_UP:
       direction=1;
@@ -109,14 +109,12 @@ Function: moveSnake()
 Purpose: moves the snake by replacing body with the head, giving the visual of every circle behind the head following the head
 Author: Tom
 **/
-void moveSnake()
-{
+void moveSnake() {
  int x1,x2,y1,y2,i;
 
   x1=headX;
   y1=headY;
-  for(i=0;i<size;i++)
-  {
+  for(i=0;i<size;i++) {
    x2=bodyX[i];
    y2=bodyY[i];
    bodyX[i]=x1;
@@ -126,8 +124,7 @@ void moveSnake()
   }
 
 
- switch (direction)
- {
+ switch (direction) {
    case 1:
     headY--;
     break;
@@ -147,7 +144,7 @@ Function: updateSnake()
 Purpose: blanks the playfield and redraws the snake
 Author: Corwin Van Deusen
 **/
- void updateSnake(void){
+ void updateSnake(void) {
    //blank the play area
    for(int i=1; i<BOARD_WIDTH; i++){
      move(1,i);
@@ -179,7 +176,7 @@ Author: Corwin Van Deusen
  Purpose: exits the game cleanly
  Author: Corwin Van Deusen
  **/
- void exitGame(){
+ void exitGame() {
      displayMessage("Exiting");
      usleep(1300000);
      endwin();
