@@ -6,56 +6,57 @@
 #include <string.h>
 #include <signal.h>
 
-int headX,headY,width,height,gameOver=0,direction=2,size=4,score=0,speed=100000;
+int headX,headY,xMax,yMax,gameOver=0,direction=2,size=4,score=0,tickDelay=140000;
 int bodyX[30],bodyY[30];
+
+#define BOARD_HEIGHT (LINES - 1)
+#define BOARD_WIDTH (COLS - 1)
 
 void updateSnake(void);
 void setupGame(void);
 void inputCheck(void);
 void moveSnake(void);
-void exitGame(int);
+void detectColision(int,int);
+void displayMessage(char*);
+void exitGame();
+
 
 int main(){
+  //boilerplate prep code
   initscr();
   clear();
-  width = COLS-1;
-  height = LINES-1;
   cbreak();
   keypad(stdscr, TRUE);
   nodelay(stdscr, TRUE);
   curs_set(0);
   noecho();
+
+  //game loop
   setupGame();
   while(!gameOver){
+    box(stdscr, 0, 0);
     inputCheck();
     moveSnake();
     updateSnake();
+    detectColision(headY, headX);
     refresh();
-    usleep(speed);
+    usleep(tickDelay);
     signal(SIGINT, exitGame);
   }
+
+  //end cleanly
+  displayMessage("Game Over");
+  usleep(10 * tickDelay);
+  exitGame();
 }
 
-void setupGame()
-{
-  headX=5;
-  headY=2;
-
-  int i,j;
-  addch('#');
-  hline('-', width-1);
-  move(0, width);
-  addch('#');
-  move(1,0);
-  vline('|', height-1);
-  move(1, width);
-  vline('|', height-1);
-  move(height,0);
-  addch('#');
-  hline('-', width-1);
-  move(height, width);
-  addch('#');
-  refresh();
+WINDOW * boardWin;
+void setupGame() {
+    headX=5;
+    headY=2;
+    getmaxyx(stdscr, yMax, xMax); //get dimentions of terminal
+    box(stdscr, 0, 0); //box representing the border
+    refresh();
 }
 
 void inputCheck(){
@@ -63,21 +64,25 @@ void inputCheck(){
     case 'w':
     case KEY_UP:
       direction=1;
+      //tickDelay = 190000;
       break;
 
     case 'd':
     case KEY_RIGHT:
       direction=2;
+      //tickDelay = 140000;
       break;
 
     case 's':
     case KEY_DOWN:
       direction=3;
+      //tickDelay = 190000;
       break;
 
     case 'a':
     case KEY_LEFT:
       direction=4;
+      //tickDelay = 140000;
       break;
 
     case ERR:
@@ -101,6 +106,7 @@ void moveSnake()
    y1=y2;
   }
 
+
  switch (direction)
  {
    case 1:
@@ -118,25 +124,38 @@ void moveSnake()
 }
 
  void updateSnake(void){
-   for(int i=1; i<width; i++){
+   //blank the play area
+   for(int i=1; i<BOARD_WIDTH; i++){
      move(1,i);
-     vline(' ', height-1);
+     vline(' ', BOARD_HEIGHT-1);
    }
 
+   //draw the snake segments
    for(int i=0; i<size; i++){
      move(bodyY[i], bodyX[i]);
      printw("%i", i);
    }
+
+   //draw the head
    move(headY, headX);
    addch('@');
  }
 
- void exitGame(int a){
-   char *endtext = "Exiting";
-   move(height/2, (width - strlen(endtext)) / 2);
-   printw("%s", endtext);
-   refresh();
-   usleep(speed * 4);
-   endwin();
-   exit(a);
+ void detectColision(int y,int x) {
+     gameOver = (y >= yMax-1 || x >= xMax-1 || y <= 0 || x <= 0);
+ }
+
+ void exitGame(){
+     displayMessage("Exiting");
+     usleep(1300000);
+     endwin();
+     exit(0);
+ }
+
+ void displayMessage(char* str) {
+     move(BOARD_HEIGHT/2, 1);//goto the line
+     hline(' ', BOARD_WIDTH-2);//blank the line
+     move(BOARD_HEIGHT/2, (BOARD_WIDTH - strlen(str)) / 2);//goto the middle of the line -1/2 the string length
+     printw("%s", str);
+     refresh();
  }
