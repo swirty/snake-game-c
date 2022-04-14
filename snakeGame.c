@@ -20,7 +20,11 @@ void detectColision(int,int);
 void displayMessage(char*);
 void exitGame();
 
-
+/**
+Function: main()
+Purpose: initialize the game, do the gameloop, and close the game neatly
+Author: Corwin Van Deusen
+**/
 int main(){
   //boilerplate prep code
   initscr();
@@ -50,7 +54,11 @@ int main(){
   exitGame();
 }
 
-WINDOW * boardWin;
+/**
+Function: setupGame()
+Purpose:
+Author:
+**/
 void setupGame() {
     headX=5;
     headY=2;
@@ -59,6 +67,11 @@ void setupGame() {
     refresh();
 }
 
+/**
+Function: inputCheck()
+Purpose: checks if a key is being held and parses that into a variable
+Author:
+**/
 void inputCheck(){
   switch (getch()){
     case 'w':
@@ -90,6 +103,11 @@ void inputCheck(){
   }
 }
 
+/**
+Function: moveSnake()
+Purpose:
+Author:
+**/
 void moveSnake()
 {
  int x1,x2,y1,y2,i;
@@ -123,6 +141,11 @@ void moveSnake()
  }
 }
 
+/**
+Function: updateSnake()
+Purpose: blanks the playfield and redraws the snake
+Author: Corwin Van Deusen
+**/
  void updateSnake(void){
    //blank the play area
    for(int i=1; i<BOARD_WIDTH; i++){
@@ -141,10 +164,20 @@ void moveSnake()
    addch('@');
  }
 
+ /**
+ Function: detectColision()
+ Purpose: detects collision with the wall and sets the gameOver flag
+ Author:
+ **/
  void detectColision(int y,int x) {
      gameOver = (y >= yMax-1 || x >= xMax-1 || y <= 0 || x <= 0);
  }
 
+ /**
+ Function: exitGame()
+ Purpose: exits the game cleanly
+ Author: Corwin Van Deusen
+ **/
  void exitGame(){
      displayMessage("Exiting");
      usleep(1300000);
@@ -152,6 +185,11 @@ void moveSnake()
      exit(0);
  }
 
+ /**
+ Function: displayMessage()
+ Purpose: blanks the row, then writes whatever message was passed
+ Author:
+ **/
  void displayMessage(char* str) {
      move(BOARD_HEIGHT/2, 1);//goto the line
      hline(' ', BOARD_WIDTH-2);//blank the line
