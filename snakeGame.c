@@ -56,8 +56,9 @@ int main(){
 
 /**
 Function: setupGame()
-Purpose:Places the snake head in the top left corner so when it automatically goes right from the start, it has space to move. Also get dimensions of terminal to draw the border.
-Author: Tom & 
+Purpose: places the snake head in the top left corner so when it automatically goes right from the start, it has space to move. 
+         Also gets dimensions of terminal and draw the border.
+Author: Tom & Moiz
 **/
 void setupGame() {
     headX=5;
@@ -167,7 +168,7 @@ Author: Corwin Van Deusen
  /**
  Function: detectColision()
  Purpose: detects collision with the wall and sets the gameOver flag
- Author:
+ Author: Moiz
  **/
  void detectColision(int y,int x) {
      gameOver = (y >= yMax-1 || x >= xMax-1 || y <= 0 || x <= 0);
@@ -188,7 +189,7 @@ Author: Corwin Van Deusen
  /**
  Function: displayMessage()
  Purpose: blanks the row, then writes whatever message was passed
- Author:
+ Author: Moiz
  **/
  void displayMessage(char* str) {
      move(BOARD_HEIGHT/2, 1);//goto the line
